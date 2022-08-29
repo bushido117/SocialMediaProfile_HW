@@ -7,7 +7,15 @@
 
 import UIKit
 
-class ProfileInfoView: UIView {
+//Попробовать UITextFieldDelegate
+
+protocol TopViewDelegate: AnyObject {
+    func textFieldResignFirstResponder(_ textField: UITextField)
+}
+
+class ProfileInfoView: UIView, UITextFieldDelegate {
+    
+    weak var topViewDelegate: TopViewDelegate?
 
     lazy var mainTopStack: UIStackView = {
         let stack = UIStackView()
@@ -21,6 +29,7 @@ class ProfileInfoView: UIView {
         let stack = UIStackView()
         stack.axis = NSLayoutConstraint.Axis.vertical
         stack.distribution = UIStackView.Distribution.fillEqually
+        stack.alignment = .leading
         return stack
     }()
     
@@ -82,6 +91,10 @@ class ProfileInfoView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubviews()
+        
+        firstTextField.delegate = self
+        middleTextField.delegate = self
+        lastTextField.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -115,5 +128,9 @@ class ProfileInfoView: UIView {
         mainTopStack.addArrangedSubview(stackForLabels)
         mainTopStack.addArrangedSubview(stackForTextFields)
         addSubview(mainTopStack)
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        topViewDelegate?.textFieldResignFirstResponder(textField)
     }
 }

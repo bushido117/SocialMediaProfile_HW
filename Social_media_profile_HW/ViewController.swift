@@ -7,7 +7,9 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, TopViewDelegate, BottomViewDelegate {
+    
+    var text: String?
         
     lazy var profileInfoView = ProfileInfoView()
     lazy var bottomButtonsView = BottomButtonsView()
@@ -24,6 +26,9 @@ class ViewController: UIViewController {
         self.navigationController?.navigationBar.isTranslucent = false
         self.title = "Profile"
         addSubviews()
+        
+        profileInfoView.topViewDelegate = self
+        bottomButtonsView.bottomViewDelegate = self
     }
     
     override func updateViewConstraints() {
@@ -51,6 +56,14 @@ class ViewController: UIViewController {
         self.view.addSubview(profileInfoView)
         self.view.addSubview(bottomButtonsView)
         self.view.addSubview(textView)
+    }
+    
+    func textFieldResignFirstResponder(_ textField: UITextField) {
+        self.text = textField.text
+    }
+    
+    func addTextToTextView(_ button: UIButton) {
+        textView.text += self.text ?? ""
     }
 }
 

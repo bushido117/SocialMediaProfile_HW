@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol BottomViewDelegate: AnyObject {
+    func addTextToTextView (_ button: UIButton)
+}
+
 class BottomButtonsView: UIView {
+    
+    weak var bottomViewDelegate: BottomViewDelegate?
 
     lazy var bottomButtonsStack: UIStackView = {
         let stack = UIStackView()
@@ -68,7 +74,7 @@ class BottomButtonsView: UIView {
     }
     
     @objc func saveButtonTap() {
-   
+        bottomViewDelegate?.addTextToTextView(saveButton)
     }
     
     @objc func cancelButtonTap() {
