@@ -9,7 +9,9 @@ import UIKit
 
 class ViewController: UIViewController, TopViewDelegate, BottomViewDelegate {
     
-    var text: String?
+    var text: String = ""
+//    var text: String?
+    
         
     lazy var profileInfoView = ProfileInfoView()
     lazy var bottomButtonsView = BottomButtonsView()
@@ -59,11 +61,14 @@ class ViewController: UIViewController, TopViewDelegate, BottomViewDelegate {
     }
     
     func textFieldResignFirstResponder(_ textField: UITextField) {
-        self.text = textField.text
+        self.text += " " + (textField.text ?? "")
+//        self.text = textField.text
     }
     
     func addTextToTextView(_ button: UIButton) {
-        textView.text += self.text ?? ""
+        textView.text += self.text
+        self.text = ""
+//        textView.text = self.text
     }
 }
 
